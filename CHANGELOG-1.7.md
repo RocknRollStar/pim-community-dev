@@ -156,3 +156,11 @@
 - Remove useless class `Pim\Bundle\ImportExportBundle\JobTemplate\JobTemplateProviderInterface`
 - Remove useless class `Pim\Bundle\ImportExportBundle\Twig\NormalizeConfigurationExtension`
 - Remove useless class `Pim\Bundle\ImportExportBundle\ViewElement\Checker\JobNameVisibilityChecker`
+- Change the constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\ProductRelatedEntityRemovalSubscriber`
+    to replace `Doctrine\Common\Persistence\ManagerRegistry` argument by `Akeneo\Component\Console\CommandLauncher`,
+    and replace the product class parameter by `ProductRelatedEntityRemovalCommand` logfile path.
+- Change the constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\RemoveOutdatedProductsFromAssociationsSubscriber`
+    to replace `Pim\Bundle\CatalogBundle\Doctrine\MongoDBODM\ProductRepositoryInterface` argument by `Akeneo\Component\Console\CommandLauncher`
+    and `Pim\Component\Catalog\Repository\AssociationTypeRepositoryInterface` argument by `RemoveOutdatedProductsFromAssociationsCommand` logfile path.
+- Change the constructor of `Pim\Bundle\CatalogBundle\EventSubscriber\MongoDBODM\UpdateNormalizedProductDataSubscriber`
+    to replace `Doctrine\Common\Persistence\ManagerRegistry` argument by `Akeneo\Component\Console\CommandLauncher` and add `UpdateNormalizedProductDataCommand` logfile path as third argument.
