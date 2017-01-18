@@ -21,6 +21,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  */
 class Processor extends AbstractProcessor implements ItemProcessorInterface, StepExecutionAwareInterface
 {
+    const IDENTIFIER_NAME = 'code';
+
     /** @var SimpleFactoryInterface */
     protected $factory;
 
@@ -68,6 +70,10 @@ class Processor extends AbstractProcessor implements ItemProcessorInterface, Ste
             $this->skipItemWithMessage($item, $exception->getMessage(), $exception);
         } catch (\InvalidArgumentException $exception) {
             $this->skipItemWithMessage($item, $exception->getMessage(), $exception);
+        }
+
+        if (array_key_exists(self::IDENTIFIER_NAME, $item)) {
+            $this->checkIdentifierDuplication($item, $item[self::IDENTIFIER_NAME]);
         }
 
         $violations = $this->validate($entity);
