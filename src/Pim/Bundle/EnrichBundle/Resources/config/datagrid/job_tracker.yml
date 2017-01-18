@@ -19,6 +19,12 @@ datagrid:
                 data_name: startTime
                 type: product_value_datetime
                 frontend_type: datetime
+            warning:
+                label:         Warning count
+                type:          twig
+                data_name:     warningCount
+                template:      PimImportExportBundle:Property:warning.html.twig
+                frontend_type: html
         actions:
             view:
                 type:      navigate

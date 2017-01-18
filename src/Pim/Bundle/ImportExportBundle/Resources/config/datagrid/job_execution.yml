@@ -22,6 +22,12 @@ datagrid:
                 label:     Status
                 type:      translateable
                 data_name: statusLabel
+            warning:
+                label:         Warning count
+                type:          twig
+                data_name:     warningCount
+                template:      PimImportExportBundle:Property:warning.html.twig
+                frontend_type: html
         properties:
             id: ~
             show_link:

@@ -2,16 +2,19 @@
     <thead>
         <tr>
             <th class="AknGrid-headerCell">
-                <%= __('pim_dashboard.widget.last_operations.date') %>
+                <%- __('pim_dashboard.widget.last_operations.date') %>
             </th>
             <th class="AknGrid-headerCell">
-                <%= __('pim_dashboard.widget.last_operations.type') %>
+                <%- __('pim_dashboard.widget.last_operations.type') %>
             </th>
             <th class="AknGrid-headerCell">
-                <%= __('pim_dashboard.widget.last_operations.profile name') %>
+                <%- __('pim_dashboard.widget.last_operations.profile name') %>
             </th>
             <th class="AknGrid-headerCell">
-                <%= __('pim_dashboard.widget.last_operations.status') %>
+                <%- __('pim_dashboard.widget.last_operations.status') %>
+            </th>
+            <th class="AknGrid-headerCell">
+                <%- __('pim_dashboard.widget.last_operations.warning_count') %>
             </th>
             <th class="AknGrid-headerCell"></th>
         </tr>
@@ -19,19 +22,26 @@
     <tbody>
     <% _.each(data, function (operation) { %>
         <tr class="AknGrid-bodyRow">
-            <td class="AknGrid-bodyCell"> <%= operation.date %></td>
-            <td class="AknGrid-bodyCell"> <%= __('pim_dashboard.widget.last_operations.job_type.'+operation.type) %></td>
-            <td class="AknGrid-bodyCell"><%= operation.label %></td>
+            <td class="AknGrid-bodyCell"> <%- operation.date %></td>
+            <td class="AknGrid-bodyCell"> <%- __('pim_dashboard.widget.last_operations.job_type.'+operation.type) %></td>
+            <td class="AknGrid-bodyCell"><%- operation.label %></td>
             <td class="AknGrid-bodyCell">
-                <span class="AknBadge <%= operation.labelClass %>">
-                    <%= operation.statusLabel %>
+                <span class="AknBadge <%- operation.labelClass %>">
+                    <%- operation.statusLabel %>
                 </span>
+            </td>
+            <td class="AknGrid-bodyCell">
+                <% if (operation.warningCount > 0) { %>
+                    <span class="AknBadge AknBadge--warning"><%- operation.warningCount %></span>
+                <% } else { %>
+                -
+                <% } %>
             </td>
             <td class="AknGrid-bodyCell AknGrid-bodyCell--right">
                 <a class="AknButton AknButton--small AknButton--grey show-details-btn" href="javascript:void(0);"
-                data-id="<%= operation.id %>"
-                data-operation-type="<%= operation.type %>">
-                    <%= __('pim_dashboard.widget.last_operations.details') %>
+                data-id="<%- operation.id %>"
+                data-operation-type="<%- operation.type %>">
+                    <%- __('pim_dashboard.widget.last_operations.details') %>
                 </a>
             </td>
         </tr>
@@ -41,7 +51,7 @@
     <tr>
         <td class="AknGrid-bodyCell AknGrid-bodyCell--full">
             <div class="AknMessageBox AknMessageBox--centered">
-                <%= __('pim_dashboard.widget.last_operations.empty') %>
+                <%- __('pim_dashboard.widget.last_operations.empty') %>
             </div>
         </td>
     </tr>
