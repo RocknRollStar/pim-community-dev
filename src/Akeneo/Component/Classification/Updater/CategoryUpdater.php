@@ -5,6 +5,8 @@ namespace Akeneo\Component\Classification\Updater;
 use Akeneo\Component\Classification\Model\CategoryInterface;
 use Akeneo\Component\StorageUtils\Exception\InvalidObjectException;
 use Akeneo\Component\StorageUtils\Exception\InvalidPropertyException;
+use Akeneo\Component\StorageUtils\Exception\InvalidPropertyStructureException;
+use Akeneo\Component\StorageUtils\Exception\InvalidPropertyTypeException;
 use Akeneo\Component\StorageUtils\Exception\UnknownPropertyException;
 use Akeneo\Component\StorageUtils\Repository\IdentifiableObjectRepositoryInterface;
 use Akeneo\Component\StorageUtils\Updater\ObjectUpdaterInterface;
@@ -50,10 +52,65 @@ class CategoryUpdater implements ObjectUpdaterInterface
         }
 
         foreach ($data as $field => $value) {
+            $this->validateDatatype($field, $value);
             $this->setData($category, $field, $value);
         }
 
         return $this;
+    }
+
+    /**
+     * Validate the input data type.
+     *
+     * @param string            $field
+     * @param mixed             $data
+     *
+     * @throws UnknownPropertyException
+     */
+    protected function validateDatatype($field, $data)
+    {
+        if ('label' === $field) {
+            if(!is_array($field)) {
+                throw InvalidPropertyTypeException::arrayExpected(
+                    'label',
+                    'update',
+                    'category',
+                    $field
+                );
+            }
+
+            foreach ($data as $localeCode => $label) {
+                if (null !== $label && !is_scalar($label)) {
+                    throw InvalidPropertyTypeException::validArrayStructureExpected(
+                        'label',
+                        'A label is not a scalar',
+                        'update',
+                        'category',
+                        $field
+                    );
+                }
+            }
+        } elseif ('code' === $field) {
+            if (!is_scalar($field)) {
+                throw InvalidPropertyTypeException::scalarExpected(
+                    'code',
+                    'update',
+                    'category',
+                    $field
+                );
+            }
+        } elseif ('parent' === $field) {
+            if (!is_scalar($field)) {
+                throw InvalidPropertyTypeException::scalarExpected(
+                    'parent',
+                    'update',
+                    'category',
+                    $field
+                );
+            }
+        } else {
+            throw UnknownPropertyException::unknownProperty($field);
+        }
     }
 
     /**
